@@ -1,0 +1,33 @@
+import app from "./app.js";
+import db from "./config/db.js";
+import { bootstrapAdmin } from "./services/authService.js";
+import dotenv from "dotenv";
+
+dotenv.config();
+
+const PORT = process.env.PORT || 5000;
+
+async function startServer() {
+  try {
+    // 1. Test database connection
+    console.log("Verifying database connection pool...");
+    await db.query("SELECT NOW()");
+    
+    // 2. Bootstrap default admin account if necessary
+    await bootstrapAdmin();
+
+    // 3. Start listening
+    app.listen(PORT, () => {
+      console.log(`=========================================`);
+      console.log(`PORTFOLIO SERVER RUNNING ON PORT ${PORT}`);
+      console.log(`Environment: ${process.env.NODE_ENV || "development"}`);
+      console.log(`Server Date: ${new Date().toISOString()}`);
+      console.log(`=========================================`);
+    });
+  } catch (error) {
+    console.error("Critical: Failed to start server:", error);
+    process.exit(1);
+  }
+}
+
+startServer();
