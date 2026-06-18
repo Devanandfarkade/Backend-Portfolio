@@ -1,6 +1,6 @@
-import app from "./app.js";
-import db from "./config/db.js";
-import { bootstrapAdmin } from "./services/authService.js";
+import app from "./src/app.js";
+import db from "./src/config/db.js";
+import { bootstrapAdmin } from "./src/services/authService.js";
 import dotenv from "dotenv";
 
 dotenv.config();
@@ -31,3 +31,5 @@ async function startServer() {
 }
 
 startServer();
+
+export default app;
